@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<context id="testTables" targetRuntime="MyBatis3">
+		<!-- 生成一对一配置 -->
+		<plugin type="cc.bandaotixi.plugins.OneToOnePlugin" />
+		<!-- 生成一对多配置 -->
+		<plugin type="cc.bandaotixi.plugins.OneToManyPlugin" />
+		<plugin type="cc.bandaotixi.plugins.BatchInsertPlugin"></plugin>
+		<plugin type="cc.bandaotixi.plugins.BatchUpdatePlugin"></plugin>
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/webdiary4" userId="root"
+			password="123123">
+		</jdbcConnection>
+		<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer，为 true时把JDBC DECIMAL 和 
+			NUMERIC 类型解析为java.math.BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- targetProject:生成PO类的位置 -->
+		<javaModelGenerator targetPackage="com.webdiary.pojo"
+			targetProject="./src">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+			<!-- 从数据库返回的值被清理前后的空格 -->
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+        <!-- targetProject:mapper映射文件生成的位置 -->
+		<sqlMapGenerator targetPackage="com.webdiary.mapper"
+			targetProject="./src">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		<!-- targetPackage：mapper接口生成的位置 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.webdiary.mapper"
+			targetProject="./src">
+			<!-- enableSubPackages:是否让schema作为包的后缀 -->
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		<!-- 指定数据库表 -->
+		<table schema="User" tableName="user">
+			<generatedKey column="id" sqlStatement="MySql" identity="true" />
+			<oneToMany mappingTable="diary" column="id" joinColumn="uid" where="diary.is_deleted=0"/>
+		</table>
+		<!--<table schema="Admin" tableName="admin"></table>
+		<table schema="Comment" tableName="comment_"></table>
+		<table schema="Drafts" tableName="ddiary"></table>-->
+		<table schema="Diary" tableName="diary"></table>
+		<!--<table schema="DraftsPhoto" tableName="dphoto"></table>
+		<table schema="LikeDiary" tableName="like_diary"></table>
+		<table schema="Message" tableName="message"></table>
+		<table schema="DiaryPhoto" tableName="photo"></table>
+		<table schema="UserMessage" tableName="usermessage"></table>-->
+	</context>
+</generatorConfiguration>
